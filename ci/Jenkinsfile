@@ -4,7 +4,7 @@ pipeline {
         GOOGLE_CREDENTIALS = credentials('jenkins-service-gcp')
     }
     stages {
-        stage('Authenticate GCP') {
+        stage('Setting Up') {
             steps {
                 sh '''
                 gcloud version
@@ -13,5 +13,14 @@ pipeline {
                 '''
             }
         }
+    stage('Deploy Infrastructure'){
+        step(
+            'Deploying on GCP using Terraform' {
+                sh '''
+                terraform apply
+                '''
+            }
+        )
+    }
     }
 }
