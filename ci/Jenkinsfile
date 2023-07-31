@@ -8,6 +8,7 @@ pipeline {
             steps {
                 sh '''
                 gcloud version
+                terraform --version  
                 '''
             }
         }
