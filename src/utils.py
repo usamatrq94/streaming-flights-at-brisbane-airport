@@ -6,6 +6,8 @@ from google.cloud import bigquery, secretmanager
 
 logger = logging.getLogger()
 
+# Test changes for jenkins
+
 
 def get_secrets(
     secret_id: str = None,
