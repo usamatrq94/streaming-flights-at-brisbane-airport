@@ -14,13 +14,10 @@ pipeline {
             }
         }
     stage('Deploy Infrastructure'){
-        step(
-            'Deploying on GCP using Terraform' {
-                sh '''
-                terraform apply
-                '''
-            }
-        )
-    }
+        steps {
+            sh '''
+            terraform apply
+            '''
+        }
     }
 }
