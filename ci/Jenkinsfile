@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh '''
                 gcloud version
-                gcloud auth activate-service-account
+                gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
                 terraform --version  
                 '''
             }
