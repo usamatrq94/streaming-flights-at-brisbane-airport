@@ -1,4 +1,5 @@
 install terraform to jenkins
+gcloud compute ssh --zone "australia-southeast1-c" "jenkins-ci-vm" --project "streaming-flights-brisbane"
 
 sudo apt-get update
 sudo apt-get install unzip
