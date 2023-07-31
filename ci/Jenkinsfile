@@ -1,9 +1,14 @@
 pipeline {
     agent any
+    environment {
+        GOOGLE_CREDENTIALS = credentials('jenkins-service-gcp')
+    }
     stages {
-        stage('Hello') {
+        stage('Authenticate GCP') {
             steps {
-                echo 'Hello, World!'
+                sh '''
+                gcloud version
+                '''
             }
         }
     }
