@@ -3,8 +3,10 @@ flows:
     flow_path: flows/get_flight_tracks.py
     deployments:
       - name: default
+        cron: "*/10 * * * *"
   - name: get_flights
     flow_path: flows/get_flights.py
     deployments:
     - name: default
+      cron: "0 */12 * * *""
 

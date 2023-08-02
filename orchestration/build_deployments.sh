@@ -20,6 +20,7 @@ for ((flow_index=0; flow_index<$num_flows; flow_index++)); do
 
     for ((dep_index=0; dep_index<$num_deployments; dep_index++)); do
         dep_name=$(yq ".flows[$flow_index].deployments[$dep_index].name" $file)
+        cron=$(yq ".flows[$flow_index].deployments[$dep_index].cron" $file)
 
         output_dep="ci/prefect_deployments/$flow_name"-"$dep_name".yaml
         
@@ -29,6 +30,7 @@ for ((flow_index=0; flow_index<$num_flows; flow_index++)); do
             --output "$output_dep" \
             --storage-block "gcs-bucket/$repo_name" \
             --infra-block "cloud-run-job/$repo_name" \
+            --cron "$cron"\
             --skip-upload
         
         echo "--> Deployment :: $dep_name | $output_dep"
