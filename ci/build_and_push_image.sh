@@ -1,6 +1,6 @@
-REGION="australia-southeast1"
-PROJECT_ID="streaming-flights-brisbane"
-REPOSITORY_NAME="brisbane-airport-docker"
+# REGION="australia-southeast1"
+# PROJECT_ID="streaming-flights-brisbane"
+# REPOSITORY_NAME="brisbane-airport-docker"
 
 gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 

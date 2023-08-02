@@ -22,4 +22,16 @@ pipeline {
             }
         }
     }
+    stage('Build And Push Image'){
+        environment { 
+                REGION="australia-southeast1"
+                PROJECT_ID="streaming-flights-brisbane"
+                REPOSITORY_NAME="brisbane-airport-docker"
+            }
+        steps{
+            sh '''
+            ./ci/build_and_push_image.sh    
+            '''
+        }
+    }
 }
