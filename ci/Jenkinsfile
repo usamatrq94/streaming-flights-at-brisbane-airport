@@ -4,36 +4,16 @@ pipeline {
         GOOGLE_CREDENTIALS = credentials('jenkins-service-gcp')
     }
     stages {
-        stage('Setting Up') {
+        stage('PRODUCTION') {
             steps {
                 sh '''
-                gcloud version
                 gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
-                terraform --version  
+                terraform init
+                terraform apply -auto-approve
+                ./ci/build_and_push_image.sh
+                orchestration/build_deployments.sh
+                python orchestration/blocks.py
                 '''
-            }
-        }
-    stage('Deploy Infrastructure'){
-        steps {
-            sh '''
-            terraform init
-            terraform apply -auto-approve
-            '''
-            }
-        }
-    stage('Build And Push Image'){
-        steps{
-            sh '''
-            ./ci/build_and_push_image.sh    
-            '''
-            }
-        }
-    stage('Deploy Prefect'){
-        steps{
-            sh '''
-            orchestration/build_deployments.sh
-            python orchestration/blocks.py
-            '''
             }
         }
     }
