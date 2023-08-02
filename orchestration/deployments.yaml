@@ -7,6 +7,6 @@ flows:
   - name: get_flights
     flow_path: flows/get_flights.py
     deployments:
-    - name: default
-      cron: "0 */12 * * *""
+      - name: default
+        cron: "0 */12 * * *""
 
