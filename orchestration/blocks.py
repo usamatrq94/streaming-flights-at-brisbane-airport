@@ -1,18 +1,6 @@
-import os
-
-from prefect.filesystems import GCS
 from prefect_gcp import GcpCredentials
 from prefect_gcp.cloud_run import CloudRunJob
 from prefect_gcp.cloud_storage import GcsBucket
-
-with open("orchestration/prefect-service-account.json", "r") as file:
-    service_account = file.read()
-
-# block = GCS(
-#     bucket_path="prefect-deployments-dev/streaming-flights-at-brisbane-airport",
-#     service_account_info=service_account,
-#     project="streaming-flights-brisbane",
-# )
 
 credentials = GcpCredentials.load("prefect-gcp-service-role")
 

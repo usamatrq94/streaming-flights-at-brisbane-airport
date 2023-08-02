@@ -106,6 +106,9 @@ def partition_df_by_column(
 
 
 def update_bq_table(table_id: str, uri: str) -> None:
+    """
+    Function to create and update Big Query Table
+    """
     client = bigquery.Client()
 
     job_config = bigquery.LoadJobConfig(
