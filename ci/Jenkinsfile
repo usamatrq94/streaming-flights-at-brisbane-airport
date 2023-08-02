@@ -30,6 +30,7 @@ pipeline {
             }
         steps{
             sh '''
+            gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
             ./ci/build_and_push_image.sh    
             '''
             }
