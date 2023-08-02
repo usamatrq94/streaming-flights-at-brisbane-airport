@@ -21,19 +21,19 @@ pipeline {
             '''
             }
         }
-    stage('Build And Push Image'){
-        environment { 
-                REGION="australia-southeast1"
-                PROJECT_ID="streaming-flights-brisbane"
-                REPOSITORY_NAME="brisbane-airport-docker"
-                GOOGLE_CREDENTIALS = credentials('jenkins-service-gcp')
-            }
-        steps{
-            sh '''
-            gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
-            ./ci/build_and_push_image.sh    
-            '''
-            }
-        }
+    // stage('Build And Push Image'){
+    //     environment { 
+    //             REGION="australia-southeast1"
+    //             PROJECT_ID="streaming-flights-brisbane"
+    //             REPOSITORY_NAME="brisbane-airport-docker"
+    //             GOOGLE_CREDENTIALS = credentials('jenkins-service-gcp')
+    //         }
+    //     steps{
+    //         sh '''
+    //         gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
+    //         ./ci/build_and_push_image.sh    
+    //         '''
+    //         }
+    //     }
     }
 }
