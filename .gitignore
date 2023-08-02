@@ -1,2 +1,5 @@
 *.json
 notebooks
+ci/prefect_deployments
+prefect/prefect-service-account.json
+*/__pycache__/

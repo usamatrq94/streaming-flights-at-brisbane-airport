@@ -1,0 +1,10 @@
+flows:
+  - name: get_flight_tracks
+    flow_path: flows/get_flight_tracks.py
+    deployments:
+      - name: default
+  - name: get_flights
+    flow_path: flows/get_flights.py
+    deployments:
+    - name: default
+

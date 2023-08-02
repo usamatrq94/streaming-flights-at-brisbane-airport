@@ -3,6 +3,7 @@ from datetime import datetime
 
 import pandas as pd
 import requests
+from prefect import task
 from pytz import timezone
 
 from src.utils import get_secrets
@@ -11,6 +12,7 @@ flightaware_api_key = get_secrets(secret_id="flightaware-api-key")
 flightaware_api_url = "https://aeroapi.flightaware.com/aeroapi/"
 
 
+@task
 def request_brisbane_flights_on_date() -> dict:
     """
     THe functions gets all brisbane flights today
@@ -37,6 +39,7 @@ def request_brisbane_flights_on_date() -> dict:
         print(f"Error executing request :: {response.json()}")
 
 
+@task
 def parse_brisbane_flights(response: dict) -> pd.DataFrame:
     """
     This function parses a json file as dataframe
@@ -83,6 +86,7 @@ def parse_brisbane_flights(response: dict) -> pd.DataFrame:
     )
 
 
+@task
 def request_flight_track(flight_id: str) -> dict:
     """
     The function gets all details of a flight
@@ -107,6 +111,7 @@ def request_flight_track(flight_id: str) -> dict:
         return {}
 
 
+@task
 def parse_flight_track(flight_tracks: dict) -> pd.DataFrame:
     """
     The function parses track tracks from json to dataframe

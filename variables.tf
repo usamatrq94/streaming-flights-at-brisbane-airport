@@ -14,6 +14,12 @@ variable "region" {
   default     = "australia-southeast1"
 }
 
+variable "zone" {
+  type        = string
+  description = "Zone for GCP"
+  default     = "australia-southeast1-a"
+}
+
 variable "storage_class" {
   type        = string
   description = "Storage class type for bucket."

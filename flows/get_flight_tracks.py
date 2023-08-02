@@ -1,16 +1,20 @@
 import logging
 from datetime import datetime
 
+from prefect import flow
+
 from src.flightaware import parse_flight_track, request_flight_track
 from src.utils import (
     partition_df_by_column,
     query_bq_for_df,
     save_dateformatted_data_to_storage,
+    update_bq_table,
 )
 
 logger = logging.getLogger()
 
 
+@flow
 def get_flight_tracks() -> None:
     """
     This function get flight tracks and save them to bucket
@@ -52,7 +56,12 @@ def get_flight_tracks() -> None:
             suffix="fa_flight_id",
         )
 
+    uri = "gs://brisbane-airport/flight_tracks/*.parquet"
+
+    update_bq_table(
+        table_id="streaming-flights-brisbane.brisbaneairport.flight_tracks", uri=uri
+    )
+
 
 if __name__ == "__main__":
     get_flight_tracks()
-    # print(request_flight_track(flight_id="QLK2422-1690632759-airline-358p"))

@@ -11,15 +11,26 @@ terraform {
 provider "google" {
   project = var.project_id
   region  = var.region
-  //credentials = file(var.credentials) #use this if you don't want to set env-var GOOGLE_APPLICATION
 }
 
-# GCS storage bucket
 resource "google_storage_bucket" "airport_data_lake" {
   name     = var.bucket_name
   location = var.region
 
-  # Optional, but recommended settings:
+  storage_class               = var.storage_class
+  uniform_bucket_level_access = true
+
+  versioning {
+    enabled = true
+  }
+
+  force_destroy = true
+}
+
+resource "google_storage_bucket" "orchestration" {
+  name     = "prefect-deployments-dev"
+  location = var.region
+
   storage_class               = var.storage_class
   uniform_bucket_level_access = true
 
@@ -46,14 +57,30 @@ resource "google_bigquery_dataset" "brisbane-airport" {
   default_table_expiration_ms = 3600000
 }
 
-# Bigquery table
-resource "google_bigquery_table" "flights" {
-  dataset_id = google_bigquery_dataset.brisbane-airport.dataset_id
-  table_id   = "flights"
+resource "google_compute_instance" "prefect-agent" {
+  name         = "prefect-agent"
+  machine_type = "e2-medium"
+  zone         = var.zone
 
-  time_partitioning {
-    type = "DAY"
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+      labels = {
+        my_label = "bullseye"
+      }
+    }
   }
 
-  # schema = file("schema.json")
+  network_interface {
+    network = "default"
+
+    access_config {
+      // Ephemeral public IP
+    }
+  }
+
+  service_account {
+    email  = "prefect@streaming-flights-brisbane.iam.gserviceaccount.com"
+    scopes = ["cloud-platform"]
+  }
 }

@@ -3,6 +3,7 @@ import logging
 
 import pandas as pd
 from google.cloud import bigquery, secretmanager
+from prefect import task
 
 logger = logging.getLogger()
 
@@ -25,6 +26,7 @@ def get_secrets(
     return response.payload.data.decode("UTF-8")
 
 
+@task
 def save_dateformatted_data_to_storage(
     df: pd.DataFrame, bucket: str, prefix: str, suffix: str = None
 ) -> None:
@@ -84,6 +86,7 @@ def dtype_to_bqtype(dtype):
         raise ValueError(f"Data type {dtype} is not currently supported")
 
 
+@task
 def query_bq_for_df(query: str) -> pd.DataFrame:
     """Function return query results as dataframe"""
     client = bigquery.Client()
@@ -91,9 +94,24 @@ def query_bq_for_df(query: str) -> pd.DataFrame:
     return job.to_dataframe()
 
 
-def partition_df_by_column(df: pd.DataFrame, columns: list = []) -> list[pd.DataFrame]:
+@task
+def partition_df_by_column(
+    df: pd.DataFrame, columns: list = ["date"]
+) -> list[pd.DataFrame]:
     """
     Function to partiton dataframe by column
     """
     grouped = df.groupby(columns)
     return [grp for _, grp in grouped]
+
+
+def update_bq_table(table_id: str, uri: str) -> None:
+    client = bigquery.Client()
+
+    job_config = bigquery.LoadJobConfig(
+        source_format=bigquery.SourceFormat.PARQUET,
+    )
+
+    load_job = client.load_table_from_uri(uri, table_id, job_config=job_config)
+
+    load_job.result()
