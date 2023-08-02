@@ -21,7 +21,6 @@ pipeline {
             '''
             }
         }
-    }
     stage('Build And Push Image'){
         environment { 
                 REGION="australia-southeast1"
@@ -32,6 +31,7 @@ pipeline {
             sh '''
             ./ci/build_and_push_image.sh    
             '''
+            }
         }
     }
 }
