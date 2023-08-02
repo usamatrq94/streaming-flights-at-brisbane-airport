@@ -32,10 +32,8 @@ pipeline {
     stage('Deploy Prefect'){
         steps{
             sh '''
-            python orchestration/blocks.py
-            '''
-            sh '''
             orchestration/build_deployments.sh
+            python orchestration/blocks.py
             '''
         }
     }
