@@ -7,6 +7,7 @@ pipeline {
     stages {
         stage('PRODUCTION') {
             steps {
+                sh 'echo $PATH'
                 sh '''
                 gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
                 ./orchestration/build_deployments.sh
