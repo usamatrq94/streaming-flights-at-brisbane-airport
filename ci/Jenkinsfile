@@ -8,11 +8,11 @@ pipeline {
             steps {
                 sh '''
                 gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
-                terraform init
-                terraform apply -auto-approve
-                ./ci/build_and_push_image.sh
+                // terraform init
+                // terraform apply -auto-approve
+                // ./ci/build_and_push_image.sh
                 ./orchestration/build_deployments.sh
-                python orchestration/blocks.py
+                // python orchestration/blocks.py
                 '''
             }
         }
