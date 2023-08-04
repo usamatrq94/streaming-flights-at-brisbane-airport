@@ -8,10 +8,11 @@ pipeline {
         stage('PRODUCTION') {
             steps {
                 sh 'echo $PATH'
-                sh '''
-                gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
-                ./orchestration/build_deployments.sh
-                '''
+                sh 'prefect --version'
+                // sh '''
+                // gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
+                // ./orchestration/build_deployments.sh
+                // '''
             }
         }
     }
