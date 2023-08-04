@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         GOOGLE_CREDENTIALS = credentials('jenkins-service-gcp')
+        PATH = "/home/muhammadtariq/.local/bin:$PATH"
     }
     stages {
         stage('PRODUCTION') {
