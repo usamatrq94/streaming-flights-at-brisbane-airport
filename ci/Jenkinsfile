@@ -6,13 +6,14 @@ pipeline {
     stages {
         stage('PRODUCTION') {
             steps {
-                sh 'env'
-                sh 'echo $PATH'
-                sh 'prefect --version'
-                // sh '''
-                // gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
-                // ./orchestration/build_deployments.sh
-                // '''
+                sh '''
+                gcloud auth activate-service-account --key-file=$GOOGLE_CREDENTIALS
+                terraform init
+                terraform apply -auto-approve
+                ./ci/build_and_push_image.sh
+                ./orchestration/build_deployments.sh
+                python orchestration/blocks.py
+                '''
             }
         }
     }
